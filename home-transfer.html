@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastSend - Secure File Transfers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .transfer-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* Other Pages */
+        .page-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <i class="fas fa-paper-plane"></i>
+                <span>FastSend</span>
+            </a>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('how-it-works')">How It Works</a>
+                <a href="#" onclick="showPage('pricing')">Pricing</a>
+                <a href="#" onclick="showPage('help')">Help</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>Secure File Transfers Made Simple</h1>
+                <p>Send files up to 10GB quickly and securely without registration</p>
+            </section>
+
+            <div class="transfer-card">
+                <h2>Send a File</h2>
+                <form id="fileTransferForm">
+                    <div class="form-group">
+                        <label for="senderEmail">Your Email</label>
+                        <input type="email" id="senderEmail" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipientEmail">Recipient's Email</label>
+                        <input type="email" id="recipientEmail" class="form-control" placeholder="recipient@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message" class="form-control" placeholder="Add a note to your recipient..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>File to Send</label>
+                        <div class="file-upload" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                            <p>Drag & drop your files here or click to browse</p>
+                            <p style="font-size: 0.9rem; color: var(--gray);">Maximum file size: 10GB</p>
+                            <input type="file" id="fileInput" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" style="background-color: var(--primary); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send File
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- How It Works Page -->
+        <div id="how-it-works" class="page">
+            <div class="page-content">
+                <h2>How It Works</h2>
+                <div style="margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background-color: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Select Your File</h3>
+                            <p>Click the upload area or drag and drop your file. We support all file types up to 10GB.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background-color: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Enter Recipient Details</h3>
+                            <p>Add the recipient's email address and an optional message.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="background-color: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Send & Share</h3>
+                            <p>Click "Send File" and we'll securely transfer your file. The recipient gets a download link via email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Page -->
+        <div id="pricing" class="page">
+            <div class="page-content">
+                <h2>Pricing Plans</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div style="background-color: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 2rem; text-align: center;">
+                        <h3 style="margin-bottom: 1rem;">Free</h3>
+                        <div style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">$0</div>
+                        <ul style="list-style: none; text-align: left; margin-bottom: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> 10GB max file size</li>
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> 7 day file storage</li>
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Basic security</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background-color: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); padding: 2rem; text-align: center; border: 2px solid var(--primary);">
+                        <div style="background-color: var(--primary); color: white; padding: 0.25rem 0.5rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; font-size: 0.8rem;">POPULAR</div>
+                        <h3 style="margin-bottom: 1rem;">Pro</h3>
+                        <div style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">$9.99/month</div>
+                        <ul style="list-style: none; text-align: left; margin-bottom: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> 50GB max file size</li>
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> 30 day file storage</li>
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Advanced security</li>
+                            <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Password protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Page -->
+        <div id="help" class="page">
+            <div class="page-content">
+                <h2>Help & Support</h2>
+                <div style="margin-top: 1.5rem;">
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 0.5rem;">Frequently Asked Questions</h3>
+                        <div style="margin-top: 1rem;">
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">What's the maximum file size I can send?</div>
+                                <div>Our free plan allows files up to 10GB. For larger files, consider our Pro plan which supports up to 50GB.</div>
+                            </div>
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">How long do files stay available?</div>
+                                <div>Files are stored for 7 days in the free plan and 30 days in the Pro plan.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">Contact Support</h3>
+                        <p style="margin-bottom: 1rem;">Can't find what you're looking for? Our team is happy to help.</p>
+                        <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: var(--border-radius);">
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Email</label>
+                                <input type="email" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: var(--border-radius);">
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Message</label>
+                                <textarea style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: var(--border-radius); min-height: 120px;"></textarea>
+                            </div>
+                            <button style="background-color: var(--primary); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer;">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+            <p>&copy; 2023 FastSend. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // File upload functionality
+        document.getElementById('fileUploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                alert('File selected: ' + this.files[0].name);
+            }
+        });
+
+        // Form submission
+        document.getElementById('fileTransferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('File upload simulated! In a real app, this would send your file.');
+        });
+    </script>
+</body>
+</html>
